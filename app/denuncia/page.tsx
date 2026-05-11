@@ -9,13 +9,15 @@ import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
 import { Header } from "@/components/Header";
 import { Textarea } from "@/components/Textarea";
+import { complaintTypes } from "@/data/mockData";
 
 export default function DenunciaPage() {
   const [photoName, setPhotoName] = useState<string | null>(null);
+  const [problemType, setProblemType] = useState("");
   const [description, setDescription] = useState("");
   const [sent, setSent] = useState(false);
 
-  const isSubmitEnabled = useMemo(() => Boolean(photoName), [photoName]);
+  const isSubmitEnabled = useMemo(() => Boolean(photoName && problemType), [photoName, problemType]);
 
   function onSelectPhoto(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
@@ -25,12 +27,15 @@ export default function DenunciaPage() {
   if (sent) {
     return (
       <AppShell hideBottomNav>
-        <Header title="Denúncia enviada" subtitle="Recebemos sua solicitação e vamos acompanhar o encaminhamento." backHref="/" />
+        <Header title="Denúncia enviada" subtitle="Recebemos sua solicitação e vamos acompanhar a análise." backHref="/" />
         <Card className="text-center">
           <div className="mx-auto mb-4 flex size-16 items-center justify-center rounded-full bg-brand-light text-brand-dark">
             <CheckCircle2 className="size-9" />
           </div>
           <h2 className="text-xl font-black text-brand-text">Denúncia enviada com sucesso</h2>
+          <p className="mt-2 text-sm leading-6 text-brand-muted">
+            Obrigado por ajudar a cidade a identificar pontos de descarte irregular.
+          </p>
           <div className="mt-5 grid grid-cols-3 gap-2 text-left">
             <div className="rounded-2xl bg-slate-50 p-3">
               <FileCheck2 className="mb-2 size-5 text-brand-primary" />
@@ -48,6 +53,9 @@ export default function DenunciaPage() {
               <p className="mt-1 text-sm font-black text-brand-text">Até 48h</p>
             </div>
           </div>
+          <div className="mt-5 rounded-2xl bg-brand-warning p-3 text-left text-sm font-bold leading-6 text-brand-muted">
+            Os pontos só serão liberados após validação da denúncia.
+          </div>
           <Link href="/" className="mt-5 block">
             <Button fullWidth>Voltar ao início</Button>
           </Link>
@@ -60,11 +68,25 @@ export default function DenunciaPage() {
     <AppShell hideBottomNav>
       <Header
         title="Fazer denúncia"
-        subtitle="Envie uma foto e a localização do descarte irregular."
+        subtitle="Registre descarte irregular com tipo de problema, foto e localização."
         backHref="/"
       />
 
       <section className="space-y-4">
+        <label className="block">
+          <span className="mb-2 block text-sm font-bold text-brand-text">Tipo de problema</span>
+          <select
+            value={problemType}
+            onChange={(event) => setProblemType(event.target.value)}
+            className="min-h-12 w-full rounded-2xl border border-brand-border bg-white px-4 py-3 text-sm font-bold text-brand-text shadow-sm outline-none focus:border-brand-primary focus:ring-4 focus:ring-brand-light"
+          >
+            <option value="">Selecione uma opção</option>
+            {complaintTypes.map((type) => (
+              <option key={type} value={type}>{type}</option>
+            ))}
+          </select>
+        </label>
+
         <label className={`block cursor-pointer rounded-3xl border border-dashed p-6 text-center shadow-soft transition ${
           photoName ? "border-brand-primary bg-brand-light" : "border-brand-border bg-white hover:border-brand-primary"
         }`}>
@@ -76,7 +98,7 @@ export default function DenunciaPage() {
             {photoName ? "Foto adicionada" : "Tirar ou enviar foto"}
           </span>
           <span className="mt-1 block text-sm leading-6 text-brand-muted">
-            {photoName ? photoName : "Toque para abrir a câmera"}
+            {photoName ? photoName : "Pode ser uma foto simulada para o MVP"}
           </span>
           {photoName ? (
             <span className="mt-3 inline-flex items-center gap-2 text-sm font-bold text-brand-dark">
@@ -93,8 +115,8 @@ export default function DenunciaPage() {
                 <LocateFixed className="size-5" />
               </span>
               <div>
-                <p className="text-sm font-black text-brand-text">Detectando localização...</p>
-                <p className="mt-1 text-sm text-brand-muted">Localização encontrada</p>
+                <p className="text-sm font-black text-brand-text">Localização simulada</p>
+                <p className="mt-1 text-sm text-brand-muted">Centro, Ilhabela - SP</p>
               </div>
             </div>
             <Badge>OK</Badge>
@@ -103,21 +125,23 @@ export default function DenunciaPage() {
 
         <Textarea
           label="Descrição opcional"
-          placeholder="Ex: lixo acumulado na calçada, móveis descartados, entulho..."
+          placeholder="Ex: lixo acumulado na calçada, móveis descartados, entulho perto da área verde..."
           value={description}
           onChange={(event) => setDescription(event.target.value)}
         />
 
         <Button type="button" fullWidth disabled={!isSubmitEnabled} onClick={() => setSent(true)}>
-          ENVIAR DENÚNCIA
+          Enviar denúncia
         </Button>
 
         {!isSubmitEnabled ? (
-          <p className="text-center text-sm font-bold leading-6 text-brand-accent">Adicione uma foto para habilitar o envio.</p>
+          <p className="text-center text-sm font-bold leading-6 text-brand-accent">
+            Selecione o tipo de problema e adicione uma foto para enviar.
+          </p>
         ) : null}
 
         <p className="text-center text-xs leading-5 text-brand-muted">
-          Sua denúncia será analisada e encaminhada ao setor responsável.
+          Sua denúncia será analisada antes de gerar pontos no ranking.
         </p>
       </section>
     </AppShell>

@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Fluxo Vivo",
-  description: "Aplicação de sustentabilidade para descarte correto e denúncias ambientais"
+  description: "Aplicação de sustentabilidade para descarte correto, coleta e denúncias ambientais"
 };
 
 export default function RootLayout({
