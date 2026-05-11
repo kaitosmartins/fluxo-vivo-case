@@ -27,12 +27,12 @@ export default function DenunciaPage() {
   if (sent) {
     return (
       <AppShell hideBottomNav>
-        <Header title="Denúncia enviada" subtitle="Recebemos sua solicitação e vamos acompanhar a análise." backHref="/" />
+        <Header title="Reporte enviado" subtitle="Recebemos seu reporte e vamos acompanhar a análise." backHref="/" />
         <Card className="text-center">
           <div className="mx-auto mb-4 flex size-16 items-center justify-center rounded-full bg-brand-light text-brand-dark">
             <CheckCircle2 className="size-9" />
           </div>
-          <h2 className="text-xl font-black text-brand-text">Denúncia enviada com sucesso</h2>
+          <h2 className="text-xl font-black text-brand-text">Reporte enviado com sucesso</h2>
           <p className="mt-2 text-sm leading-6 text-brand-muted">
             Obrigado por ajudar a cidade a identificar pontos de descarte irregular.
           </p>
@@ -54,7 +54,7 @@ export default function DenunciaPage() {
             </div>
           </div>
           <div className="mt-5 rounded-2xl bg-brand-warning p-3 text-left text-sm font-bold leading-6 text-brand-muted">
-            Os pontos só serão liberados após validação da denúncia.
+            Seu reporte será analisado antes de gerar pontos.
           </div>
           <Link href="/" className="mt-5 block">
             <Button fullWidth>Voltar ao início</Button>
@@ -67,8 +67,8 @@ export default function DenunciaPage() {
   return (
     <AppShell hideBottomNav>
       <Header
-        title="Fazer denúncia"
-        subtitle="Registre descarte irregular com tipo de problema, foto e localização."
+        title="Reportar problema"
+        subtitle="Reporte descarte irregular com tipo de problema, foto e localização."
         backHref="/"
       />
 
@@ -125,23 +125,23 @@ export default function DenunciaPage() {
 
         <Textarea
           label="Descrição opcional"
-          placeholder="Ex: lixo acumulado na calçada, móveis descartados, entulho perto da área verde..."
+          placeholder="Ex: resíduos acumulados na calçada, móveis descartados, entulho perto da área verde..."
           value={description}
           onChange={(event) => setDescription(event.target.value)}
         />
 
         <Button type="button" fullWidth disabled={!isSubmitEnabled} onClick={() => setSent(true)}>
-          Enviar denúncia
+          Enviar reporte
         </Button>
 
         {!isSubmitEnabled ? (
           <p className="text-center text-sm font-bold leading-6 text-brand-accent">
-            Selecione o tipo de problema e adicione uma foto para enviar.
+            Selecione o tipo de problema e envie uma foto para continuar.
           </p>
         ) : null}
 
         <p className="text-center text-xs leading-5 text-brand-muted">
-          Sua denúncia será analisada antes de gerar pontos no ranking.
+          Seu reporte será analisado antes de gerar pontos.
         </p>
       </section>
     </AppShell>

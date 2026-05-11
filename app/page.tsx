@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { AlertTriangle, BookOpen, CalendarDays, MapPinned, Megaphone, Recycle, Sparkles } from "lucide-react";
+import { AlertTriangle, BookOpen, MapPinned, Megaphone, Recycle, Search } from "lucide-react";
 import { ActionCard } from "@/components/ActionCard";
 import { AppShell } from "@/components/AppShell";
 import { Badge } from "@/components/Badge";
@@ -9,7 +9,7 @@ import { Card } from "@/components/Card";
 import { InfoCard } from "@/components/InfoCard";
 import { SectionTitle } from "@/components/SectionTitle";
 import { StatCard } from "@/components/StatCard";
-import { collectiveImpact, userImpact } from "@/data/mockData";
+import { collectiveImpact, nextCollection, userImpact } from "@/data/mockData";
 
 export default function HomePage() {
   return (
@@ -27,33 +27,51 @@ export default function HomePage() {
         <Badge tone="orange">Ilhabela</Badge>
       </section>
 
-      <Card className="mb-5 border-brand-light bg-green-50">
+      <Card className="mb-4 border-brand-light bg-green-50">
         <div className="flex items-start gap-3">
           <span className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-white text-brand-primary shadow-sm">
-            <Sparkles className="size-5" />
+            <BookOpen className="size-5" />
           </span>
           <div>
-            <h2 className="text-xl font-black leading-tight text-brand-text">
-              Transforme pequenas ações em impacto real para sua cidade.
-            </h2>
+            <h2 className="text-xl font-black leading-tight text-brand-text">O que você quer descartar hoje?</h2>
             <p className="mt-2 text-sm leading-6 text-brand-muted">
-              Encontre onde descartar, acompanhe a coleta e denuncie pontos irregulares.
+              Busque por pilha, óleo, vidro, eletrônico ou reciclável.
             </p>
           </div>
         </div>
-        <Link href="/denuncia" className="mt-4 block">
-          <Button fullWidth variant="accent">
-            <Megaphone className="mr-2 size-5" />
-            Denunciar descarte irregular
+        <Link href="/guia" className="mt-4 block">
+          <Button fullWidth>
+            <Search className="mr-2 size-5" />
+            Buscar resíduo
           </Button>
         </Link>
       </Card>
 
+      <section className="mb-6">
+        <SectionTitle title="Próxima coleta no seu bairro" />
+        <Card>
+          <div className="mb-3 flex items-start justify-between gap-3">
+            <div>
+              <Badge>{nextCollection.day}</Badge>
+              <h2 className="mt-3 text-lg font-black text-brand-text">{nextCollection.type}</h2>
+              <p className="mt-1 text-sm font-bold text-brand-muted">
+                {nextCollection.neighborhood} · {nextCollection.time}
+              </p>
+            </div>
+            <span className="flex size-12 items-center justify-center rounded-2xl bg-brand-light text-brand-dark">
+              <Recycle className="size-6" />
+            </span>
+          </div>
+          <p className="text-sm leading-6 text-brand-muted">{nextCollection.detail}</p>
+          <Link href="/coleta" className="mt-3 inline-flex text-sm font-black text-brand-primary">
+            Ver calendário de coleta
+          </Link>
+        </Card>
+      </section>
+
       <section className="mb-6 grid grid-cols-2 gap-3">
-        <ActionCard href="/denuncia" title="Denunciar" text="Foto e localização" icon={<Megaphone className="size-5" />} featured />
-        <ActionCard href="/coleta" title="Coleta" text="Ver meu bairro" icon={<CalendarDays className="size-5" />} />
-        <ActionCard href="/mapa" title="Ponto de descarte" text="Onde levar resíduos" icon={<MapPinned className="size-5" />} />
-        <ActionCard href="/guia" title="Aprender" text="Separar resíduos" icon={<BookOpen className="size-5" />} />
+        <ActionCard href="/mapa" title="Pontos próximos" text="Onde levar resíduos" icon={<MapPinned className="size-5" />} featured />
+        <ActionCard href="/denuncia" title="Reportar problema" text="Avisar sobre um ponto" icon={<Megaphone className="size-5" />} />
       </section>
 
       <section className="mb-6">
@@ -65,27 +83,12 @@ export default function HomePage() {
         </div>
       </section>
 
-      <Card className="mb-5">
-        <div className="mb-3 flex items-start justify-between gap-3">
-          <div>
-            <Badge>Hoje</Badge>
-            <h2 className="mt-3 text-lg font-black text-brand-text">Coleta de recicláveis</h2>
-          </div>
-          <span className="flex size-12 items-center justify-center rounded-2xl bg-brand-light text-brand-dark">
-            <Recycle className="size-6" />
-          </span>
-        </div>
-        <p className="text-sm leading-6 text-brand-muted">
-          Separe papel, plástico, metal e vidro limpos antes do horário de coleta.
-        </p>
-      </Card>
-
       <div className="mb-6">
         <InfoCard
           tone="orange"
           icon={<AlertTriangle className="size-5 text-brand-accent" />}
-          title="Pontos liberados após validação"
-          text="Denúncias geram impacto real, mas só entram no ranking depois de análise."
+          title="Reportes ajudam no cuidado com a cidade"
+          text="Avise quando encontrar descarte irregular, ponto cheio ou informação desatualizada."
         />
       </div>
 

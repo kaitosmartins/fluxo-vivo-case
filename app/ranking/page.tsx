@@ -67,7 +67,7 @@ export default function RankingPage() {
         </div>
         <div className="mt-4 flex gap-2 rounded-2xl bg-brand-light p-3 text-sm leading-6 text-brand-dark">
           <ShieldCheck className="mt-0.5 size-4 shrink-0" />
-          Pontos por denúncia só contam após validação. Descartes corretos e leituras educativas podem ser simulados no MVP.
+          Pontos por reporte só contam após validação. Descartes corretos e leituras educativas podem ser simulados no MVP.
         </div>
       </Card>
 

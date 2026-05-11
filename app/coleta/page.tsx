@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AlertTriangle, Bell, CheckCircle2, Clock3 } from "lucide-react";
+import { AlertTriangle, Bell, CheckCircle2, Clock3, Recycle } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { Badge } from "@/components/Badge";
 import { Button } from "@/components/Button";
@@ -13,10 +13,36 @@ import { collectionNeighborhoods, collectionSchedule } from "@/data/mockData";
 export default function ColetaPage() {
   const [bairro, setBairro] = useState("Centro");
   const [reminderEnabled, setReminderEnabled] = useState(false);
+  const nextSchedule = collectionSchedule[1];
 
   return (
     <AppShell>
       <Header title="Coleta do meu bairro" subtitle="Dias e horários para se organizar sem deixar resíduos na rua." backHref="/" />
+
+      <Card className="mb-4 border-brand-light bg-green-50">
+        <div className="mb-3 flex items-start justify-between gap-3">
+          <div>
+            <Badge>Próxima coleta</Badge>
+            <h2 className="mt-3 text-xl font-black text-brand-text">{nextSchedule.type}</h2>
+            <p className="mt-1 text-sm font-bold text-brand-muted">
+              {bairro} · {nextSchedule.days} · {nextSchedule.time}
+            </p>
+          </div>
+          <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-white text-brand-primary shadow-sm">
+            <Recycle className="size-6" />
+          </span>
+        </div>
+        <p className="text-sm leading-6 text-brand-muted">{nextSchedule.detail}</p>
+        <Button
+          fullWidth
+          variant={reminderEnabled ? "secondary" : "accent"}
+          className={`mt-4 ${reminderEnabled ? "border-brand-light bg-white text-brand-dark" : ""}`}
+          onClick={() => setReminderEnabled(true)}
+        >
+          {reminderEnabled ? <CheckCircle2 className="mr-2 size-5" /> : <Bell className="mr-2 size-5" />}
+          {reminderEnabled ? "Lembrete ativado" : "Ativar lembrete de coleta"}
+        </Button>
+      </Card>
 
       <div className="mb-4 flex items-center gap-2 rounded-2xl border border-brand-border bg-white px-4 py-3 text-sm font-black text-brand-primary shadow-sm">
         <CheckCircle2 className="size-4" />
@@ -66,16 +92,6 @@ export default function ColetaPage() {
           text="Materiais recicláveis devem estar limpos e secos sempre que possível."
         />
       </div>
-
-      <Button
-        fullWidth
-        variant={reminderEnabled ? "secondary" : "primary"}
-        className={`mt-5 ${reminderEnabled ? "border-brand-light bg-brand-light text-brand-dark" : ""}`}
-        onClick={() => setReminderEnabled(true)}
-      >
-        {reminderEnabled ? <CheckCircle2 className="mr-2 size-5" /> : <Bell className="mr-2 size-5" />}
-        {reminderEnabled ? "Lembrete ativado" : "Ativar lembrete de coleta"}
-      </Button>
     </AppShell>
   );
 }

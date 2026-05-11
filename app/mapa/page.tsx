@@ -1,7 +1,7 @@
 "use client";
 
 import { AlertTriangle, ChevronDown, ChevronUp, Clock3, Info, MapPin, Navigation } from "lucide-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { Badge } from "@/components/Badge";
 import { Button } from "@/components/Button";
@@ -15,24 +15,51 @@ function badgeTone(category: string): "green" | "orange" {
   return category.includes("Óleo") || category.includes("Ecoponto") ? "orange" : "green";
 }
 
+function matchesFilter(point: (typeof disposalPoints)[number], activeFilter: string) {
+  if (activeFilter === "Todos") return true;
+
+  const target = activeFilter.toLowerCase();
+  const searchable = `${point.category} ${point.materials}`.toLowerCase();
+
+  return searchable.includes(target);
+}
+
 export default function MapaPage() {
-  const [expandedPoint, setExpandedPoint] = useState(disposalPoints[0].name);
+  const [activeFilter, setActiveFilter] = useState("Todos");
+  const [expandedPoint, setExpandedPoint] = useState<string>(disposalPoints[0].name);
+
+  const filteredPoints = useMemo(
+    () => disposalPoints.filter((point) => matchesFilter(point, activeFilter)),
+    [activeFilter]
+  );
 
   return (
     <AppShell>
-      <Header title="Onde descartar corretamente" subtitle="Pontos simulados para levar resíduos sem jogar na rua." backHref="/" />
+      <Header title="Onde descartar corretamente" subtitle="Encontre pontos para descartar resíduos corretamente em Ilhabela." backHref="/" />
 
-      <div className="mb-4 flex gap-2 overflow-x-auto pb-1">
-        {filters.map((filter, index) => (
-          <span
-            key={filter}
-            className={`shrink-0 rounded-full px-3 py-2 text-xs font-bold ${
-              index === 0 ? "bg-brand-primary text-white" : "bg-white text-brand-muted"
-            }`}
-          >
-            {filter}
-          </span>
-        ))}
+      <div className="mb-4 flex gap-2 overflow-x-auto rounded-3xl border border-brand-border bg-white p-2 shadow-sm">
+        {filters.map((filter) => {
+          const active = activeFilter === filter;
+
+          return (
+            <button
+              key={filter}
+              type="button"
+              onClick={() => {
+                setActiveFilter(filter);
+                const nextPoint = disposalPoints.find((point) => matchesFilter(point, filter));
+                setExpandedPoint(nextPoint?.name ?? "");
+              }}
+              className={`shrink-0 rounded-full border px-3 py-2 text-xs font-bold transition ${
+                active
+                  ? "border-brand-primary bg-brand-primary text-white"
+                  : "border-transparent bg-slate-50 text-brand-muted hover:border-brand-primary hover:bg-green-50"
+              }`}
+            >
+              {filter}
+            </button>
+          );
+        })}
       </div>
 
       <Card className="mb-5 overflow-hidden p-0">
@@ -40,17 +67,21 @@ export default function MapaPage() {
           <div className="absolute left-8 top-10 h-40 w-1 rotate-45 rounded-full bg-white/80" />
           <div className="absolute right-14 top-6 h-52 w-1 -rotate-12 rounded-full bg-white/80" />
           <div className="absolute bottom-8 left-12 h-1 w-56 rounded-full bg-white/80" />
-          {[
-            "left-[18%] top-[24%] bg-brand-primary",
-            "right-[22%] top-[35%] bg-brand-accent",
-            "bottom-[22%] left-[45%] bg-brand-primary",
-            "bottom-[34%] right-[12%] bg-brand-accent",
-            "left-[30%] bottom-[16%] bg-brand-primary"
-          ].map((className) => (
-            <div key={className} className={`absolute flex size-9 items-center justify-center rounded-full text-white shadow-soft ${className}`}>
-              <MapPin className="size-5" />
-            </div>
-          ))}
+          {filteredPoints.slice(0, 5).map((point, index) => {
+            const positions = [
+              "left-[18%] top-[24%] bg-brand-primary",
+              "right-[22%] top-[35%] bg-brand-accent",
+              "bottom-[22%] left-[45%] bg-brand-primary",
+              "bottom-[34%] right-[12%] bg-brand-accent",
+              "left-[30%] bottom-[16%] bg-brand-primary"
+            ];
+
+            return (
+              <div key={point.name} className={`absolute flex size-9 items-center justify-center rounded-full text-white shadow-soft ${positions[index]}`}>
+                <MapPin className="size-5" />
+              </div>
+            );
+          })}
           <div className="absolute left-4 top-4 rounded-2xl bg-white/90 px-3 py-2 text-xs font-bold text-brand-muted shadow-sm">
             Mapa simulado de Ilhabela
           </div>
@@ -58,12 +89,13 @@ export default function MapaPage() {
       </Card>
 
       <section className="space-y-3">
-        {disposalPoints.map((point) => {
+        {filteredPoints.map((point) => {
           const expanded = expandedPoint === point.name;
 
           return (
             <Card key={point.name}>
               <button
+                type="button"
                 className="flex w-full items-start justify-between gap-3 text-left"
                 onClick={() => setExpandedPoint(expanded ? "" : point.name)}
               >

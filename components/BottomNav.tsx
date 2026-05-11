@@ -1,14 +1,14 @@
 "use client";
 
-import { CalendarDays, Home, MapPinned, Trophy, UserRound } from "lucide-react";
+import { BookOpen, CalendarDays, Home, MapPinned, UserRound } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const items = [
   { href: "/", label: "Início", icon: Home },
+  { href: "/guia", label: "Guia", icon: BookOpen },
   { href: "/coleta", label: "Coleta", icon: CalendarDays },
   { href: "/mapa", label: "Mapa", icon: MapPinned },
-  { href: "/ranking", label: "Ranking", icon: Trophy },
   { href: "/perfil", label: "Perfil", icon: UserRound }
 ];
 

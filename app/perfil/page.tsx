@@ -1,4 +1,5 @@
-import { Award, BookOpen, CheckCircle2, Clock3, History, MapPinned, Megaphone, Share2, ShieldCheck } from "lucide-react";
+import Link from "next/link";
+import { Award, Bell, BookOpen, CheckCircle2, Clock3, History, MapPinned, Megaphone, Share2, ShieldCheck, Trophy } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
@@ -21,7 +22,7 @@ export default function PerfilPage() {
             <p className="text-sm font-bold text-white/80">Kaito Oliveira</p>
             <h1 className="mt-1 text-2xl font-black">Guardião Verde</h1>
             <p className="mt-2 max-w-[15rem] text-sm leading-6 text-white/85">
-              Você está fortalecendo o descarte correto e a fiscalização comunitária.
+              Você está contribuindo para o descarte correto e o cuidado com a cidade.
             </p>
           </div>
           <div className="flex size-14 shrink-0 items-center justify-center rounded-3xl bg-white/15">
@@ -37,9 +38,32 @@ export default function PerfilPage() {
         </div>
       </Card>
 
+      <Card className="mb-5">
+        <div className="grid gap-3">
+          <div className="flex items-center justify-between gap-3 rounded-2xl bg-slate-50 px-3 py-3">
+            <div className="flex items-center gap-2">
+              <MapPinned className="size-4 text-brand-primary" />
+              <span className="text-sm font-black text-brand-text">Meu bairro</span>
+            </div>
+            <span className="text-sm font-bold text-brand-muted">Centro</span>
+          </div>
+          <div className="flex items-center justify-between gap-3 rounded-2xl bg-slate-50 px-3 py-3">
+            <div className="flex items-center gap-2">
+              <Bell className="size-4 text-brand-primary" />
+              <span className="text-sm font-black text-brand-text">Lembretes de coleta</span>
+            </div>
+            <span className="text-sm font-bold text-brand-primary">Ativos</span>
+          </div>
+          <Link href="/ranking" className="flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-brand-border bg-white px-3 py-2 text-sm font-black text-brand-primary">
+            <Trophy className="size-4" />
+            Ver ranking de impacto
+          </Link>
+        </div>
+      </Card>
+
       <section className="mb-5 grid grid-cols-2 gap-3">
         <StatCard value="720" label="pontos acumulados" tone="orange" />
-        <StatCard value="8" label="denúncias enviadas" />
+        <StatCard value="8" label="reportes enviados" />
         <StatCard value="24" label="descartes registrados" />
         <StatCard value="6" label="dicas concluídas" />
       </section>

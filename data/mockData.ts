@@ -1,12 +1,12 @@
 export const userImpact = [
   { value: "18", label: "ações registradas", tone: "green" },
   { value: "720", label: "pontos acumulados", tone: "orange" },
-  { value: "8", label: "denúncias enviadas", tone: "green" },
+  { value: "8", label: "reportes enviados", tone: "green" },
   { value: "24", label: "descartes corretos", tone: "green" }
 ] as const;
 
 export const collectiveImpact = [
-  { value: "128", label: "denúncias analisadas" },
+  { value: "128", label: "reportes analisados" },
   { value: "342", label: "descartes corretos registrados" },
   { value: "27", label: "pontos de descarte mapeados" },
   { value: "1.240 kg", label: "resíduos encaminhados corretamente" }
@@ -34,6 +34,14 @@ export const collectionSchedule = [
     detail: "Móveis pequenos, madeira e entulho ensacado. Não deixe na calçada sem confirmação."
   }
 ] as const;
+
+export const nextCollection = {
+  neighborhood: "Centro",
+  type: "Reciclável",
+  day: "Hoje",
+  time: "a partir das 9h",
+  detail: "Separe papel, plástico, metal e vidro limpos antes de colocar para coleta."
+} as const;
 
 export const disposalPoints = [
   {
@@ -93,7 +101,7 @@ export const educationTips = [
     text: "Reciclável bom é reciclável limpo. Se estiver muito sujo de comida ou gordura, pode contaminar outros materiais."
   },
   {
-    title: "O que vai no lixo orgânico",
+    title: "O que vai no resíduo orgânico",
     tag: "Orgânico",
     text: "Restos de frutas, legumes e alimentos podem ir para o orgânico. Se houver compostagem, melhor ainda."
   },
@@ -113,14 +121,65 @@ export const educationTips = [
     text: "Pilhas, baterias, cabos e aparelhos pequenos precisam de ponto específico. Eles podem contaminar solo e água."
   },
   {
-    title: "Por que denunciar descarte irregular",
+    title: "Por que reportar descarte irregular",
     tag: "Cidade",
-    text: "A denúncia ajuda a cidade a encontrar pontos críticos e agir antes que o problema aumente."
+    text: "O reporte ajuda a cidade a encontrar pontos críticos e agir antes que o problema aumente."
+  }
+] as const;
+
+export const disposalGuideItems = [
+  {
+    name: "Pilha",
+    category: "Resíduo especial",
+    aliases: ["pilha", "bateria", "baterias"],
+    prepare: "Guarde em local seco e, se possível, isole os polos com fita.",
+    where: "Leve a um ponto de pilhas e baterias ou ecoponto com coleta especial.",
+    care: "Nunca descarte no resíduo comum, porque metais pesados podem contaminar solo e água."
+  },
+  {
+    name: "Óleo de cozinha",
+    category: "Resíduo especial",
+    aliases: ["oleo", "óleo", "cozinha", "gordura"],
+    prepare: "Espere esfriar e coloque em uma garrafa PET limpa, seca e bem fechada.",
+    where: "Entregue em pontos de coleta de óleo usado no Centro ou em ecopontos participantes.",
+    care: "Não jogue na pia, no ralo ou no solo."
+  },
+  {
+    name: "Vidro",
+    category: "Reciclável",
+    aliases: ["vidro", "garrafa", "pote"],
+    prepare: "Lave rapidamente e separe de outros recicláveis quando houver quebra.",
+    where: "Leve a pontos de recicláveis ou deixe para a coleta seletiva do bairro.",
+    care: "Vidro quebrado deve ir embalado e identificado para proteger coletores."
+  },
+  {
+    name: "Eletrônico pequeno",
+    category: "Resíduo especial",
+    aliases: ["eletronico", "eletrônico", "celular", "cabo", "carregador"],
+    prepare: "Remova dados pessoais e separe cabos, carregadores e acessórios.",
+    where: "Leve a pontos de e-lixo ou ecopontos com recebimento de eletrônicos.",
+    care: "Não misture com recicláveis comuns ou resíduo orgânico."
+  },
+  {
+    name: "Papel e papelão",
+    category: "Reciclável",
+    aliases: ["papel", "papelao", "papelão", "caixa"],
+    prepare: "Dobre caixas e mantenha o material limpo e seco.",
+    where: "Coloque na coleta seletiva ou leve ao centro de recicláveis mais próximo.",
+    care: "Papel engordurado ou muito sujo deve ir para rejeito."
+  },
+  {
+    name: "Plástico e metal",
+    category: "Reciclável",
+    aliases: ["plastico", "plástico", "metal", "lata", "reciclável", "reciclavel"],
+    prepare: "Retire restos de alimento e amasse embalagens quando fizer sentido.",
+    where: "Use a coleta seletiva do bairro ou pontos de recicláveis.",
+    care: "Embalagens com produto tóxico precisam de orientação específica."
   }
 ] as const;
 
 export const scoreRules = [
-  { action: "Denúncia validada", points: "+50 pontos" },
+  { action: "Reporte validado", points: "+50 pontos" },
   { action: "Descarte em ponto correto", points: "+30 pontos" },
   { action: "Participação em ação ambiental", points: "+80 pontos" },
   { action: "Leitura de dica educativa", points: "+5 pontos" }
@@ -135,14 +194,14 @@ export const rankingNeighborhoods = [
 ] as const;
 
 export const userHistory = [
-  { text: "Denúncia enviada", detail: "Em análise" },
+  { text: "Reporte enviado", detail: "Em análise" },
   { text: "Descarte de recicláveis registrado", detail: "+30 pontos" },
   { text: "Dica concluída: Separação correta", detail: "+5 pontos" },
   { text: "Ponto de coleta reportado", detail: "Aguardando revisão" }
 ] as const;
 
 export const complaintTypes = [
-  "Lixo acumulado",
+  "Resíduos acumulados",
   "Entulho",
   "Descarte em área verde",
   "Animal morto",
